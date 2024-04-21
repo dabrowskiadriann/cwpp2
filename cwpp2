@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Adrian Dąbrowski, Nr Albumu 35997, Data Zajęć 17.04
+
 # Sprawdź, czy znajdujemy się w repozytorium Git
 if [ ! -d .git ]; then
     echo "Błąd: Nie znaleziono repozytorium Git."
