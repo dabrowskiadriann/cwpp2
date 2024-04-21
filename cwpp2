@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Sprawdź, czy znajdujemy się w repozytorium Git
+if [ ! -d .git ]; then
+    echo "Błąd: Nie znaleziono repozytorium Git."
+    exit 1
+fi
+
+# Sprawdź, czy plik był zmodyfikowany od ostatniego pobrania
+if ! git diff --quiet ppcw2; then
+    # Sprawdź, czy zmodyfikowany plik został dodany do przechowalni
+    if ! git diff --cached --quiet ppcw2; then
+        # Plik był zmodyfikowany, ale nie został dodany do przechowalni ani zatwierdzony, dodaj go i zatwierdź zmiany
+        if git add ppcw2; then
+            if git commit -m "Aktualizacja pliku ppcw2: dodano funkcję XYZ"; then
+                echo "Sukces: Zmiany w pliku ppcw2 zostały zatwierdzone."
+            else
+                echo "Błąd: Nie udało się zatwierdzić zmian w pliku ppcw2."
+                exit 1
+            fi
+        else
+            echo "Błąd: Nie udało się dodać pliku ppcw2 do przechowalni."
+            exit 1
+        fi
+    else
+        # Plik jest w poczekalni, ale nie został jeszcze zatwierdzony, wyświetl komunikat
+        echo "Komunikat: Plik ppcw2 jest już oznaczony jako oczekujący na zatwierdzenie."
+    fi
+else
+    echo "Komunikat: Brak zmian w pliku ppcw2 od ostatniego pobrania."
+fi
+
+# Wyświetl historię zatwierdzeń
+echo "Historia zatwierdzeń:"
+git log
